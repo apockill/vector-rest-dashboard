@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  vector-dashboard:
+    build: .
+    container_name: vector-dashboard
+    ports:
+      - "5000:5000"
+    env_file:
+      - .dev.env
+    volumes:
+      - ~/.anki_vector/:/root/.anki_vector/
