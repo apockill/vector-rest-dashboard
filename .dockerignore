@@ -1,0 +1,9 @@
+.git
+.pytest_cache
+.idea
+.dockerignore
+
+**/__pycache__
+*.egg-info
+*.egg/
+*.pyc
