@@ -1,8 +1,7 @@
-import logging
-
 import cv2
 import numpy as np
 from anki_vector.robot import Robot
+
 
 class CameraResource:
     def __init__(self, robot: Robot):
@@ -18,7 +17,5 @@ class CameraResource:
                    b'Content-Type: image/jpeg\r\n\r\n' + jpg_bytes + b'\r\n')
 
     def on_get(self, req, resp):
-        print("Test!")
-        logging.info("Ayy le mao")
         resp.content_type = 'multipart/x-mixed-replace; boundary=frame'
         resp.stream = self.stream()

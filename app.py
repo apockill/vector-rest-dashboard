@@ -1,7 +1,6 @@
 import logging
 from argparse import ArgumentParser
 from pathlib import Path
-from wsgiref import simple_server
 
 from anki_vector import Robot
 
@@ -49,7 +48,7 @@ def parse_args():
     return args
 
 
-def start_server():
+def start_app():
     # Get args
     args = parse_args()
     cert_path = CERT_DIR / args.cert_filename
@@ -57,29 +56,28 @@ def start_server():
     # Set logging settings
     logging.basicConfig(level=logging.DEBUG)
 
-    with Robot(
-            config={"cert": cert_path},
-            default_logging=False,
-            cache_animation_list=True,
-            enable_face_detection=False,
-            enable_camera_feed=True,
-            enable_audio_feed=False,
-            enable_custom_object_detection=False,
-            enable_nav_map_feed=False,
-            show_viewer=False,
-            show_3d_viewer=False,
-            requires_behavior_control=True) as robot:
-        robot.behavior.set_eye_color(0.1, .9)
-        robot.behavior.drive_off_charger()
-        robot.conn.release_control()
-        robot.camera.init_camera_feed()
+    robot = Robot(
+        config={"cert": cert_path},
+        default_logging=False,
+        cache_animation_list=True,
+        enable_face_detection=False,
+        enable_camera_feed=True,
+        enable_audio_feed=False,
+        enable_custom_object_detection=False,
+        enable_nav_map_feed=False,
+        show_viewer=False,
+        show_3d_viewer=False,
+        requires_behavior_control=True)
+    robot.__enter__()
 
-        app = init_app(robot)
+    robot.behavior.set_eye_color(0.1, .9)
+    robot.behavior.drive_off_charger()
+    robot.conn.release_control()
+    robot.camera.init_camera_feed()
 
-        logging.info(f"Starting Server on at {args.hostname}:{args.port}")
-        httpd = simple_server.make_server(args.hostname, args.port, app)
-        httpd.serve_forever()
+    app = init_app(robot)
+    return app
 
-
-if __name__ == "__main__":
-    start_server()
+logging.info("Ayy los mayos")
+app = start_app()
+print("Past that point...")

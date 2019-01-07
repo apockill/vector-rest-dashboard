@@ -1,5 +1,6 @@
-import falcon
 import logging
+
+import falcon
 from anki_vector import Robot
 
 from backend import resources, STATIC_DIR
