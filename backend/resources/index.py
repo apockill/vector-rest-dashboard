@@ -1,7 +1,6 @@
-from flask import render_template
+from backend.templates import respond_with_remplate
 
 
-def attach(app):
-    @app.route("/")
-    def index():
-        return render_template("index.html")
+class IndexResource:
+    def on_get(self, req, resp):
+        respond_with_remplate("index.html", resp)

@@ -1,33 +1,55 @@
 import logging
+from argparse import ArgumentParser
 from pathlib import Path
 from wsgiref import simple_server
 
-import cv2
-import falcon
-import numpy as np
 from anki_vector import Robot
 
-from app import parse_args
+from backend.server import init_app
 
 CERT_DIR = Path.home() / ".anki_vector"
 
 
-def generic_error_handler(ex: Exception, req, resp, params):
-    """Handles uncaught exceptions in a format that is consistent with the rest
-    of Falcon's error handling.
-    """
-    if isinstance(ex, falcon.HTTPError):
-        # Use Falcon's built-in error handling for HTTPErrors
-        raise ex
+def parse_args():
+    parser = ArgumentParser(
+        description="Run a webserver and control your vector!")
+    parser.add_argument("--cert-filename", type=Path, default=None,
+                        help="File name of your vectors certificate. You can"
+                             " find this under ~/.anki_vector/Vector-*-.cert")
+    parser.add_argument("--hostname", type=str, default="localhost",
+                        help="Hostname for the server to be hosted on")
+    parser.add_argument("--port", type=int, default=5000,
+                        help="Port for the server to be hosted on")
+    args = parser.parse_args()
 
-    logging.critical("Uncaught exception", exc_info=ex)
-    raise falcon.HTTPInternalServerError(
-        title=type(ex),
-        description=str(ex))
+    # Try to find the vector certificate file
+    certs = list(CERT_DIR.glob("Vector*.cert"))
+    if len(certs) > 1 and args.cert_filename is None:
+        raise EnvironmentError(
+            f"You have more than one vector under {str(CERT_DIR)},"
+            f" please specify the cert file using --cert-file. "
+            f" Your options are: {','.join([str(p.name) for p in certs])}")
+    elif len(certs) == 0:
+        raise EnvironmentError(
+            "You have never set up your vector sdk ! To do this, you must"
+            " follow the directions on the readme and run:\n"
+            "> py -3 -m pip install anki_vector\n"
+            "> py -m anki_vector.configure")
+
+    # Choose the only cert if it is not specified
+    if args.cert_filename is None:
+        args.cert_filename = certs[0]
+
+    # If the specified cert doesn't exist on the system, throw an error
+    if args.cert_filename not in certs:
+        raise EnvironmentError(
+            f"The chosen vector certificate {args.cert_filename} was not found"
+            f" in the cert directory, {CERT_DIR}.")
+
+    return args
 
 
-
-def main():
+def start_server():
     # Get args
     args = parse_args()
     cert_path = CERT_DIR / args.cert_filename
@@ -55,9 +77,9 @@ def main():
         app = init_app(robot)
 
         logging.info("Starting Server!")
-        httpd = simple_server.make_server("localhost", 5001, app)
+        httpd = simple_server.make_server(args.hostname, args.port, app)
         httpd.serve_forever()
 
 
 if __name__ == "__main__":
-    main()
+    start_server()
