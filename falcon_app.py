@@ -26,34 +26,6 @@ def generic_error_handler(ex: Exception, req, resp, params):
         description=str(ex))
 
 
-class CameraResource:
-    def __init__(self, robot: Robot):
-        self.robot = robot
-
-    def stream(self):
-        while True:
-            image = self.robot.camera.latest_image
-            rgb_img = np.array(image)
-            bgr_img = cv2.cvtColor(rgb_img, cv2.COLOR_RGB2BGR)
-            jpg_bytes = cv2.imencode('.jpg', bgr_img)[1].tostring()
-            yield (b'--frame\r\n'
-                   b'Content-Type: image/jpeg\r\n\r\n' + jpg_bytes + b'\r\n')
-
-    def on_get(self, req, resp):
-        resp.content_type = 'multipart/x-mixed-replace; boundary=frame'
-        resp.stream = self.stream()
-
-
-
-def init_app(robot: Robot):
-    app = falcon.API()
-    app.add_error_handler(Exception, generic_error_handler)
-    camera = CameraResource(robot)
-
-    # Create all of the resources
-    app.add_route("/api/camera", camera)
-    return app
-
 
 def main():
     # Get args
