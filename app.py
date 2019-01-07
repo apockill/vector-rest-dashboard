@@ -16,7 +16,7 @@ def parse_args():
     parser.add_argument("--cert-filename", type=Path, default=None,
                         help="File name of your vectors certificate. You can"
                              " find this under ~/.anki_vector/Vector-*-.cert")
-    parser.add_argument("--hostname", type=str, default="localhost",
+    parser.add_argument("--hostname", type=str, default="0.0.0.0",
                         help="Hostname for the server to be hosted on")
     parser.add_argument("--port", type=int, default=5000,
                         help="Port for the server to be hosted on")
@@ -76,7 +76,7 @@ def start_server():
 
         app = init_app(robot)
 
-        logging.info("Starting Server!")
+        logging.info(f"Starting Server on at {args.hostname}:{args.port}")
         httpd = simple_server.make_server(args.hostname, args.port, app)
         httpd.serve_forever()
 
