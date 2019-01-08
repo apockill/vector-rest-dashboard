@@ -1,2 +1,2 @@
 from . import resources
-from .templates import STATIC_DIR
+from .paths import STATIC_DIR

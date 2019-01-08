@@ -14,13 +14,38 @@ def generic_error_handler(ex: Exception, req, resp, params):
         # Use Falcon's built-in error handling for HTTPErrors
         raise ex
 
-    logging.critical("Uncaught exception", exc_info=ex)
+    print("Uncaught exception", exc_info=ex)
     raise falcon.HTTPInternalServerError(
         title=type(ex),
         description=str(ex))
 
 
-def init_app(robot: Robot) -> falcon.API:
+def create_robot(cert_path: str) -> Robot:
+    """
+    :param cert_path: Path to the vector certificate (for connecting)
+    """
+    robot = Robot(
+        config={"cert": cert_path},
+        default_logging=False,
+        cache_animation_list=True,
+        enable_face_detection=False,
+        enable_camera_feed=True,
+        enable_audio_feed=False,
+        enable_custom_object_detection=False,
+        enable_nav_map_feed=False,
+        show_viewer=False,
+        show_3d_viewer=False,
+        requires_behavior_control=True)
+    # Connect to the robot and
+    robot.connect(robot.behavior_activation_timeout)
+    robot.behavior.set_eye_color(0.1, .9)
+    robot.behavior.drive_off_charger()
+    robot.conn.release_control()
+    robot.camera.init_camera_feed()
+    return robot
+
+
+def create_app(robot: Robot) -> falcon.API:
     """Initialize the falcon API with all of its routes, and return it."""
     app = falcon.API()
     app.add_error_handler(Exception, generic_error_handler)

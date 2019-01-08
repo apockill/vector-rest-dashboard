@@ -41,7 +41,7 @@ py -m anki_vector.configure
 and follow instructions to set up your vector
 
 7) run the server:  
-$ python server.py
+$ uwsgi uwsgi.ini
 
 8) Access via browser http://localhost:5000 and you are good to go :)
 

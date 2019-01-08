@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 from anki_vector.robot import Robot
 
+from backend.open_api_validator import validator
 
 class CameraResource:
     def __init__(self, robot: Robot):

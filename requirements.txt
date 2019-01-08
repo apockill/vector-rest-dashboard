@@ -1,5 +1,7 @@
 anki_vector==0.5.1
 opencv-python==3.4.5.20
 falcon==1.4.1
+falcon-swagger-ui==1.1.1
+falguard==0.2
 jinja2==2.10
 uwsgi==2.0.17.1

@@ -1,10 +1,8 @@
-from pathlib import Path
-
 import falcon
 from falcon import Response
 from jinja2 import Template
 
-STATIC_DIR = Path("static").absolute()
+from .paths import STATIC_DIR
 
 
 def load_template(template_name: str) -> Template:

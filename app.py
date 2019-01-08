@@ -1,10 +1,9 @@
-import logging
 from argparse import ArgumentParser
 from pathlib import Path
 
-from anki_vector import Robot
+import uwsgi
 
-from backend.server import init_app
+from backend import server
 
 CERT_DIR = Path.home() / ".anki_vector"
 
@@ -49,35 +48,30 @@ def parse_args():
 
 
 def start_app():
+    """The purpose of this function is to
+        - handle arguments for the server
+        - Set up "environment objects" and services, such as the robot
+        - Pass these into "create_app" to get the app, and return it
+    This makes it easy to test "create_app" because we can pass different
+    mocked objects into it."""
+
     # Get args
     args = parse_args()
     cert_path = CERT_DIR / args.cert_filename
 
-    # Set logging settings
-    logging.basicConfig(level=logging.DEBUG)
+    # Create the robot
+    robot = server.create_robot(cert_path=cert_path)
 
-    robot = Robot(
-        config={"cert": cert_path},
-        default_logging=False,
-        cache_animation_list=True,
-        enable_face_detection=False,
-        enable_camera_feed=True,
-        enable_audio_feed=False,
-        enable_custom_object_detection=False,
-        enable_nav_map_feed=False,
-        show_viewer=False,
-        show_3d_viewer=False,
-        requires_behavior_control=True)
-    robot.__enter__()
+    # # Create a function for gracefully closing app state
+    def close_app():
+        robot.disconnect()
+        print("Server has closed cleanly!")
 
-    robot.behavior.set_eye_color(0.1, .9)
-    robot.behavior.drive_off_charger()
-    robot.conn.release_control()
-    robot.camera.init_camera_feed()
+    # Register the function to uwsgi's atexit functionality
+    uwsgi.atexit = close_app
 
-    app = init_app(robot)
+    app = server.create_app(robot)
     return app
 
-logging.info("Ayy los mayos")
+
 app = start_app()
-print("Past that point...")

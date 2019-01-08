@@ -25,11 +25,4 @@ RUN npm run build
 # Run the app
 WORKDIR /usr/src/app
 EXPOSE 5000
-# CMD [ "uwsgi", "--wsgi-file", "app.py", "--callable", "app", "--http", ":5000" ]
-CMD [ "uwsgi",
-        "--wsgi-file", "app.py",
-        "--callable", "app",
-        "--http", ":5000",
-        "--enable-threads",
-        "--threads", "100",
-        "--single-interpreter" ]
+CMD [ "uwsgi", "uwsgi.ini" ]
