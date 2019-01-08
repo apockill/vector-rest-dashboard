@@ -1,7 +1,6 @@
-import logging
-
 import falcon
 from anki_vector import Robot
+from falcon_swagger_ui import register_swaggerui_app
 
 from backend import resources, STATIC_DIR
 
@@ -58,5 +57,13 @@ def create_app(robot: Robot) -> falcon.API:
     app.add_static_route(prefix="/", directory=str(STATIC_DIR))
     app.add_route("/api/camera", camera)
     app.add_route("/", index)
+
+    # Register swagger UI
+    register_swaggerui_app(
+        app,
+        base_url="/docs",
+        api_url="/swagger.json",
+        page_title="Vector Dashboard Documentation",
+        config={"supportedSubmitMethods": ['get', 'put', 'post', 'delete']})
 
     return app

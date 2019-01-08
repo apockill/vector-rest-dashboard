@@ -48,7 +48,8 @@ def parse_args():
 
 
 def start_app():
-    """The purpose of this function is to
+    """
+    The purpose of this function is to
         - handle arguments for the server
         - Set up "environment objects" and services, such as the robot
         - Pass these into "create_app" to get the app, and return it
@@ -62,13 +63,15 @@ def start_app():
     # Create the robot
     robot = server.create_robot(cert_path=cert_path)
 
-    # # Create a function for gracefully closing app state
+    # Create a function for gracefully closing app state
     def close_app():
         robot.disconnect()
         print("Server has closed cleanly!")
 
     # Register the function to uwsgi's atexit functionality
     uwsgi.atexit = close_app
+
+    # Register swagger ui for API documentation
 
     app = server.create_app(robot)
     return app
