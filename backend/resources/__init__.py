@@ -1,3 +1,7 @@
 from .camera import CameraResource
 from .index import IndexResource
-from .behavior import BehaviorResource
+from .behavior import (
+    DriveOffCharger,
+    DriveOnCharger,
+    DockWithCube
+)

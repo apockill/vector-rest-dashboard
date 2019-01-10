@@ -34,14 +34,22 @@ def create_robot(cert_path: str) -> Robot:
         enable_nav_map_feed=False,
         show_viewer=False,
         show_3d_viewer=False,
-        requires_behavior_control=True)
+        requires_behavior_control=False)
     # Connect to the robot and
     robot.connect(robot.behavior_activation_timeout)
+
+    # Check if the robot is charged
+    battery_charge_time_left = robot.get_battery_state().suggested_charger_sec
+    if battery_charge_time_left > 0:
+        print("Robot is not fully charged! Exiting...")
+        exit(-1)
+
+    robot.conn.request_control()
     robot.behavior.set_eye_color(0.1, .9)
     robot.behavior.drive_off_charger()
     robot.behavior.drive_straight(distance=util.Distance(distance_mm=10),
                                   speed=util.Speed(100))
-    robot.conn.release_control()
+    # robot.conn.release_control()
     robot.camera.init_camera_feed()
     return robot
 
@@ -54,13 +62,17 @@ def create_app(robot: Robot) -> falcon.API:
     # Create all of the resources
     camera = resources.CameraResource(robot)
     index = resources.IndexResource()
-    behavior = resources.BehaviorResource(robot)
 
     # Create all of the resources
     app.add_static_route(prefix="/", directory=str(STATIC_DIR))
     app.add_route("/api/camera", camera)
     app.add_route("/", index)
-    app.add_route("/api/behavior", behavior)
+    app.add_route("/api/behavior/drive_off_charger",
+                  resources.DriveOffCharger(robot))
+    app.add_route("/api/behavior/drive_on_charger",
+                  resources.DriveOnCharger(robot))
+    app.add_route("/api/behavior/dock_with_cube",
+                  resources.DockWithCube(robot))
 
     # Register swagger UI
     register_swaggerui_app(

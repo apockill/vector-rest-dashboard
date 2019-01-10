@@ -1,54 +1,60 @@
 {
   "swagger" : "2.0",
   "info" : {
-    "description" : "This is a simple API",
-    "version" : "1.0.0",
-    "title" : "Simple Inventory API",
+    "description" : "This is a simple API for controlling your Vector",
+    "version" : "0.1.0",
+    "title" : "Vector Dashboard API",
     "contact" : {
-      "email" : "you@your-company.com"
+      "email" : "Alex.D.Thiel@gmail.com"
     },
     "license" : {
       "name" : "Apache 2.0",
       "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
   },
-  "tags" : [ {
-    "name" : "admins",
-    "description" : "Secured Admin-only calls"
-  }, {
-    "name" : "developers",
-    "description" : "Operations available to regular developers"
-  } ],
   "paths" : {
-    "/api/behavior" : {
-      "get" : {
-        "summary" : "Perform action with the robot",
-        "description" : "By passing the right action and arguments, you can run an action on \nthe Vector robot.\n",
+    "/api/behavior/drive_off_charger" : {
+      "post" : {
+        "summary" : "Move the robot off of the charging station",
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Action Performed"
+            "description" : "Boolean true or false if successfully performed"
           },
-          "400" : {
-            "description" : "bad input parameter"
+          "503" : {
+            "description" : "Unable to connect to robot"
+          }
+        }
+      }
+    },
+    "/api/behavior/drive_on_charger" : {
+      "post" : {
+        "summary" : "Tell the robot to find and get onto the charging station",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Boolean true or false if successfully performed"
+          },
+          "503" : {
+            "description" : "Unable to connect to robot"
+          }
+        }
+      }
+    },
+    "/api/behavior/dock_with_cube" : {
+      "post" : {
+        "summary" : "Tell the robot to dock with its cube",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Boolean true or false if successfully performed"
+          },
+          "503" : {
+            "description" : "Unable to connect to robot"
           }
         }
       }
     }
   },
-  "definitions" : {
-    "Behavior" : {
-      "type" : "object",
-      "required" : [ "action" ],
-      "properties" : {
-        "action" : {
-          "type" : "string",
-          "example" : "drive_off_charger"
-        }
-      }
-    }
-  },
-  "host" : "virtserver.swaggerhub.com",
-  "basePath" : "/AlexThiel/Vector-Dashboard/1.0.0",
-  "schemes" : [ "https" ]
+  "schemes" : [ "http" ]
 }
