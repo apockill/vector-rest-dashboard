@@ -1,5 +1,5 @@
 import falcon
-from anki_vector import Robot
+from anki_vector import Robot, util
 from falcon_swagger_ui import register_swaggerui_app
 
 from backend import resources, STATIC_DIR
@@ -39,6 +39,8 @@ def create_robot(cert_path: str) -> Robot:
     robot.connect(robot.behavior_activation_timeout)
     robot.behavior.set_eye_color(0.1, .9)
     robot.behavior.drive_off_charger()
+    robot.behavior.drive_straight(distance=util.Distance(distance_mm=10),
+                                  speed=util.Speed(100))
     robot.conn.release_control()
     robot.camera.init_camera_feed()
     return robot
@@ -52,11 +54,13 @@ def create_app(robot: Robot) -> falcon.API:
     # Create all of the resources
     camera = resources.CameraResource(robot)
     index = resources.IndexResource()
+    behavior = resources.BehaviorResource(robot)
 
     # Create all of the resources
     app.add_static_route(prefix="/", directory=str(STATIC_DIR))
     app.add_route("/api/camera", camera)
     app.add_route("/", index)
+    app.add_route("/api/behavior", behavior)
 
     # Register swagger UI
     register_swaggerui_app(

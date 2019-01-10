@@ -1,8 +1,6 @@
 from argparse import ArgumentParser
 from pathlib import Path
 
-import uwsgi
-
 from backend import server
 
 CERT_DIR = Path.home() / ".anki_vector"
@@ -69,9 +67,11 @@ def start_app():
         print("Server has closed cleanly!")
 
     # Register the function to uwsgi's atexit functionality
-    uwsgi.atexit = close_app
-
-    # Register swagger ui for API documentation
+    try:
+        import uwsgi
+        uwsgi.atexit = close_app
+    except ModuleNotFoundError:
+        print("Not running in uWSGI mode")
 
     app = server.create_app(robot)
     return app
