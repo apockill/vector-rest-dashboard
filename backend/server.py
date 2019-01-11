@@ -1,5 +1,8 @@
+from time import sleep
+
 import falcon
 from anki_vector import Robot, util
+from anki_vector.exceptions import VectorNotFoundException
 from falcon_swagger_ui import register_swaggerui_app
 
 from backend import resources, STATIC_DIR
@@ -35,15 +38,23 @@ def create_robot(cert_path: str) -> Robot:
         show_viewer=False,
         show_3d_viewer=False,
         requires_behavior_control=False)
-    # Connect to the robot and
-    robot.connect(robot.behavior_activation_timeout)
+
+    # Continuously try to connect to the robot
+    while True:
+        try:
+            robot.connect(robot.behavior_activation_timeout)
+            break
+        except VectorNotFoundException:
+            print("Unable to connect to Vector! Trying again...")
 
     # Check if the robot is charged
     battery_charge_time_left = robot.get_battery_state().suggested_charger_sec
-    if battery_charge_time_left > 0:
-        print("Robot is not fully charged! Exiting...")
-        exit(-1)
+    while battery_charge_time_left > 0:
+        print(f"Charging: {battery_charge_time_left} seconds left...")
+        battery_charge_time_left = robot.get_battery_state().suggested_charger_sec
+        sleep(1)
 
+    # Get control and move a little, so as to build a map (seems to help bugs?)
     robot.conn.request_control()
     robot.behavior.set_eye_color(0.1, .9)
     robot.behavior.drive_off_charger()
