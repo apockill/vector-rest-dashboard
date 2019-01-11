@@ -1,11 +1,14 @@
 import falcon
+import ujson
 from anki_vector import Robot, objects
+from anki_vector.util import Speed, Distance, Angle
 from falcon import Request, Response
 
 from backend.open_api_validator import validator
 
 """
 Different actions:
+    # Implemented
     - drive_off_charger
     - drive_on_charger
     - dock_with_cube
@@ -14,6 +17,8 @@ Different actions:
         alignment_type
         distance_from_marker
         num_retries
+        
+        
     - drive_straight
         distance
         speed
@@ -49,7 +54,6 @@ class BehaviorResource:
 @falcon.before(validator)
 class DriveOnCharger(BehaviorResource):
     def on_post(self, req: Request, resp: Response, **validated):
-
         self.robot.behavior.drive_on_charger()
         resp.body = "true"
 
@@ -57,7 +61,6 @@ class DriveOnCharger(BehaviorResource):
 @falcon.before(validator)
 class DriveOffCharger(BehaviorResource):
     def on_post(self, req: Request, resp: Response, **validated):
-
         self.robot.behavior.drive_off_charger()
         resp.body = "true"
 
@@ -69,4 +72,15 @@ class DockWithCube(BehaviorResource):
             target=objects.LightCube,
             approach_angle=None,
             num_retries=0)
+        resp.body = "true"
+
+
+@falcon.before(validator)
+class DriveStraight(BehaviorResource):
+    def on_post(self, req: Request, resp: Response, **validated):
+        body = ujson.loads(req.stream.read())
+        self.robot.behavior.drive_straight(
+            distance=Distance(distance_mm=body["distance"]),
+            speed=Speed(speed_mmps=body["speed"]),
+            should_play_anim=False)
         resp.body = "true"

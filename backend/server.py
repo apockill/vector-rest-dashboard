@@ -57,10 +57,7 @@ def create_robot(cert_path: str) -> Robot:
     # Get control and move a little, so as to build a map (seems to help bugs?)
     robot.conn.request_control()
     robot.behavior.set_eye_color(0.1, .9)
-    robot.behavior.drive_off_charger()
-    robot.behavior.drive_straight(distance=util.Distance(distance_mm=10),
-                                  speed=util.Speed(100))
-    # robot.conn.release_control()
+
     robot.camera.init_camera_feed()
     return robot
 
@@ -84,6 +81,8 @@ def create_app(robot: Robot) -> falcon.API:
                   resources.DriveOnCharger(robot))
     app.add_route("/api/behavior/dock_with_cube",
                   resources.DockWithCube(robot))
+    app.add_route("/api/behavior/drive_straight",
+                  resources.DriveStraight(robot))
 
     # Register swagger UI
     register_swaggerui_app(

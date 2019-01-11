@@ -8,8 +8,8 @@
       "email" : "Alex.D.Thiel@gmail.com"
     },
     "license" : {
-      "name" : "Apache 2.0",
-      "url" : "http://www.apache.org/licenses/LICENSE-2.0.html"
+      "name" : "MIT License",
+      "url" : "https://opensource.org/licenses/MIT"
     }
   },
   "paths" : {
@@ -52,6 +52,46 @@
           "503" : {
             "description" : "Unable to connect to robot"
           }
+        }
+      }
+    },
+    "/api/behavior/drive_straight" : {
+      "post" : {
+        "summary" : "Tell the vector to move straight.",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The parameters for the move action",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DriveStraightParameters"
+          }
+        } ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Boolean true or false if successfully performed"
+          },
+          "503" : {
+            "description" : "Unable to connect to robot"
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "DriveStraightParameters" : {
+      "type" : "object",
+      "properties" : {
+        "distance" : {
+          "type" : "integer",
+          "description" : "Distance, in milimeters",
+          "example" : 100
+        },
+        "speed" : {
+          "type" : "integer",
+          "description" : "Speed in milimeters/second",
+          "example" : 60
         }
       }
     }
