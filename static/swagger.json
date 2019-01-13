@@ -110,7 +110,30 @@
           "description" : "The parameters for the head action",
           "required" : true,
           "schema" : {
-            "$ref" : "#/definitions/HeadAngleParameters"
+            "$ref" : "#/definitions/SetHeadAngleParameters"
+          }
+        } ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns this code if the robot was reached"
+          },
+          "503" : {
+            "description" : "Unable to connect to robot"
+          }
+        }
+      }
+    },
+    "/api/behavior/set_lift_height" : {
+      "post" : {
+        "summary" : "Tell Vectors lift to move to a given height.",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The parameters for the lift action",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/SetLiftHeightParameters"
           }
         } ],
         "produces" : [ "application/json" ],
@@ -164,7 +187,7 @@
         }
       }
     },
-    "HeadAngleParameters" : {
+    "SetHeadAngleParameters" : {
       "type" : "object",
       "properties" : {
         "angle" : {
@@ -190,6 +213,34 @@
           "description" : "Time for Vector's head to move in seconds. A value of zero will make Vector try to do it as quickly as possible.",
           "default" : 0.0,
           "example" : 1.0
+        }
+      }
+    },
+    "SetLiftHeightParameters" : {
+      "type" : "object",
+      "properties" : {
+        "height" : {
+          "type" : "number",
+          "description" : "A number between 0.0 and 1.0, representing the height percentage",
+          "example" : 0.5,
+          "minimum" : 0.0,
+          "maximum" : 1.0
+        },
+        "accel" : {
+          "type" : "number",
+          "description" : "Acceleration of Vectors lift in radian/sec^2",
+          "minimum" : 0.0,
+          "default" : 10.0
+        },
+        "max_speed" : {
+          "type" : "number",
+          "description" : "Maximum speed of Vectors lift in radian/sec",
+          "default" : 10.0
+        },
+        "duration" : {
+          "type" : "number",
+          "description" : "Time for Vector's lift to move in seconds. A value of zero will make Vector try to do it as quickly as possible.",
+          "default" : 0.0
         }
       }
     }

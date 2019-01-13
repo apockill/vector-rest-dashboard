@@ -87,6 +87,8 @@ def create_app(robot: Robot) -> falcon.API:
                   resources.TurnInPlace(robot))
     app.add_route("/api/behavior/set_head_angle",
                   resources.SetHeadAngle(robot))
+    app.add_route("/api/behavior/set_lift_height",
+                  resources.SetLiftHeight(robot))
 
     # Register swagger UI
     register_swaggerui_app(

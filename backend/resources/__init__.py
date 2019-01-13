@@ -4,7 +4,8 @@ from .behavior import (
     DockWithCube,
     DriveStraight,
     TurnInPlace,
-    SetHeadAngle
+    SetHeadAngle,
+    SetLiftHeight
 )
 from .camera import CameraResource
 from .index import IndexResource

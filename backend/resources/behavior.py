@@ -28,14 +28,13 @@ Different actions:
         angle_tolerance
         is_absolute
         num_retries
-        
-        
     - set_head_angle
         angle
         accel
         max_speed
         duration
         num_retries
+        
     - set_lift_height
         height
         accel
@@ -101,4 +100,13 @@ class SetHeadAngle(BehaviorResource):
             angle=Angle(radians=validated["angle"]),
             max_speed=validated["max_speed"],
             accel=validated["accel"],
+            duration=validated["duration"])
+
+@falcon.before(validator)
+class SetLiftHeight(BehaviorResource):
+    def on_post(self, req: Request, resp: Response, **validated):
+        self.robot.behavior.set_lift_height(
+            height=validated["height"],
+            accel=validated["accel"],
+            max_speed=validated["max_speed"],
             duration=validated["duration"])
