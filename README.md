@@ -1,5 +1,5 @@
 # Vector Dashboard
-# An application template in Python, Flask and ReactJS.
+A webapp + REST api for controlling your Anki Vector robot friend.
 
 ## Main Technologies:
 * Python
