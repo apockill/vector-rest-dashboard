@@ -1,3 +1,5 @@
 .idea/
 static/node_modules/
 static/dist/
+__pycache__
+scrap/

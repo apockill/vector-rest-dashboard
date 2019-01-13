@@ -1,7 +1,7 @@
 from time import sleep
 
 import falcon
-from anki_vector import Robot, util
+from anki_vector import Robot
 from anki_vector.exceptions import VectorNotFoundException
 from falcon_swagger_ui import register_swaggerui_app
 
@@ -83,6 +83,8 @@ def create_app(robot: Robot) -> falcon.API:
                   resources.DockWithCube(robot))
     app.add_route("/api/behavior/drive_straight",
                   resources.DriveStraight(robot))
+    app.add_route("/api/behavior/turn_in_place",
+                  resources.DriveTurn(robot))
 
     # Register swagger UI
     register_swaggerui_app(

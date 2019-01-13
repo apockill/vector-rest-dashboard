@@ -1,5 +1,4 @@
 import falcon
-import ujson
 from anki_vector import Robot, objects
 from anki_vector.util import Speed, Distance, Angle
 from falcon import Request, Response
@@ -78,9 +77,18 @@ class DockWithCube(BehaviorResource):
 @falcon.before(validator)
 class DriveStraight(BehaviorResource):
     def on_post(self, req: Request, resp: Response, **validated):
-        body = ujson.loads(req.stream.read())
         self.robot.behavior.drive_straight(
-            distance=Distance(distance_mm=body["distance"]),
-            speed=Speed(speed_mmps=body["speed"]),
+            distance=Distance(distance_mm=validated["distance"]),
+            speed=Speed(speed_mmps=validated["speed"]),
             should_play_anim=False)
+        resp.body = "true"
+
+
+@falcon.before(validator)
+class DriveTurn(BehaviorResource):
+    def on_post(self, req: Request, resp: Response, **validated):
+        self.robot.behavior.turn_in_place(
+            angle=Angle(radians=validated["angle"]),
+            speed=Angle(radians=validated["speed"]),
+            accel=Angle(radians=validated["accel"]))
         resp.body = "true"

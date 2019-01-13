@@ -19,7 +19,7 @@
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Boolean true or false if successfully performed"
+            "description" : "Returns this code if the robot was reached"
           },
           "503" : {
             "description" : "Unable to connect to robot"
@@ -33,7 +33,7 @@
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Boolean true or false if successfully performed"
+            "description" : "Returns this code if the robot was reached"
           },
           "503" : {
             "description" : "Unable to connect to robot"
@@ -47,7 +47,7 @@
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Boolean true or false if successfully performed"
+            "description" : "Returns this code if the robot was reached"
           },
           "503" : {
             "description" : "Unable to connect to robot"
@@ -61,7 +61,7 @@
         "parameters" : [ {
           "in" : "body",
           "name" : "body",
-          "description" : "The parameters for the move action",
+          "description" : "The parameters for the move action.",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/DriveStraightParameters"
@@ -70,7 +70,30 @@
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Boolean true or false if successfully performed"
+            "description" : "Returns this code if the robot was reached"
+          },
+          "503" : {
+            "description" : "Unable to connect to robot"
+          }
+        }
+      }
+    },
+    "/api/behavior/turn_in_place" : {
+      "post" : {
+        "summary" : "Tell vector to turn around in its current position.",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The parameters for the move action.",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/DriveTurnParameters"
+          }
+        } ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns this code if the robot was reached"
           },
           "503" : {
             "description" : "Unable to connect to robot"
@@ -85,13 +108,36 @@
       "properties" : {
         "distance" : {
           "type" : "integer",
-          "description" : "Distance, in milimeters",
+          "description" : "Distance, in milimeters. If positive, movement will be forward. If negative, distance will be backwards.",
           "example" : 100
         },
         "speed" : {
           "type" : "integer",
           "description" : "Speed in milimeters/second",
-          "example" : 60
+          "example" : 60,
+          "minimum" : 0,
+          "maximum" : 100
+        }
+      }
+    },
+    "DriveTurnParameters" : {
+      "type" : "object",
+      "properties" : {
+        "angle" : {
+          "type" : "number",
+          "example" : 3.14159,
+          "description" : "The angle to turn, in radians. Positive values turn left, negative values turn right. "
+        },
+        "speed" : {
+          "type" : "number",
+          "description" : "Angular turn speed in rad/sec",
+          "default" : 1.570795,
+          "example" : 1.570795
+        },
+        "accel" : {
+          "type" : "number",
+          "description" : "Acceleration in radians/sec^2",
+          "default" : 0
         }
       }
     }

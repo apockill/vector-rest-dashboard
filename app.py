@@ -63,6 +63,7 @@ def start_app():
 
     # Create a function for gracefully closing app state
     def close_app():
+        print("Server has started closing...")
         robot.disconnect()
         print("Server has closed cleanly!")
 

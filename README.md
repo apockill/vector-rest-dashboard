@@ -11,6 +11,7 @@
 * webpack
 * CSS
 * Docker
+* Swagger UI
 
 ## Building the application:
 
@@ -59,3 +60,6 @@ $ docker-compose up
 
 4) Access via browser http://localhost:5000 and you are good to go :)
 
+### Creating the swagger.json
+I currently use [this website](https://app.swaggerhub.com) to build my API docs.
+If you would like to contribute to this project, I can share you in on it. 
