@@ -84,7 +84,9 @@ def create_app(robot: Robot) -> falcon.API:
     app.add_route("/api/behavior/drive_straight",
                   resources.DriveStraight(robot))
     app.add_route("/api/behavior/turn_in_place",
-                  resources.DriveTurn(robot))
+                  resources.TurnInPlace(robot))
+    app.add_route("/api/behavior/set_head_angle",
+                  resources.SetHeadAngle(robot))
 
     # Register swagger UI
     register_swaggerui_app(

@@ -3,7 +3,8 @@ from .behavior import (
     DriveOnCharger,
     DockWithCube,
     DriveStraight,
-    DriveTurn
+    TurnInPlace,
+    SetHeadAngle
 )
 from .camera import CameraResource
 from .index import IndexResource

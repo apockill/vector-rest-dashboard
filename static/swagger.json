@@ -43,7 +43,7 @@
     },
     "/api/behavior/dock_with_cube" : {
       "post" : {
-        "summary" : "Tell the robot to dock with its cube",
+        "summary" : "Tells Vector to dock with a light cube, optionally using  a given approach angle and distance.",
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
@@ -57,7 +57,7 @@
     },
     "/api/behavior/drive_straight" : {
       "post" : {
-        "summary" : "Tell the vector to move straight.",
+        "summary" : "Tells Vector to drive in a straight line.",
         "parameters" : [ {
           "in" : "body",
           "name" : "body",
@@ -80,14 +80,37 @@
     },
     "/api/behavior/turn_in_place" : {
       "post" : {
-        "summary" : "Tell vector to turn around in its current position.",
+        "summary" : "Turn the robot around its current position.",
         "parameters" : [ {
           "in" : "body",
           "name" : "body",
-          "description" : "The parameters for the move action.",
+          "description" : "The parameters for the turn action.",
           "required" : true,
           "schema" : {
             "$ref" : "#/definitions/DriveTurnParameters"
+          }
+        } ],
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns this code if the robot was reached"
+          },
+          "503" : {
+            "description" : "Unable to connect to robot"
+          }
+        }
+      }
+    },
+    "/api/behavior/set_head_angle" : {
+      "post" : {
+        "summary" : "Tell Vectors head to move to a given angle.",
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "body",
+          "description" : "The parameters for the head action",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/HeadAngleParameters"
           }
         } ],
         "produces" : [ "application/json" ],
@@ -138,6 +161,35 @@
           "type" : "number",
           "description" : "Acceleration in radians/sec^2",
           "default" : 0
+        }
+      }
+    },
+    "HeadAngleParameters" : {
+      "type" : "object",
+      "properties" : {
+        "angle" : {
+          "type" : "number",
+          "description" : "Desired angle for Vectors head, in radians",
+          "minimum" : -0.383972435,
+          "maximum" : 0.785398
+        },
+        "accel" : {
+          "type" : "number",
+          "description" : "Acceleration of Vectors head in radians per second squared.",
+          "default" : 10.0,
+          "example" : 10.0
+        },
+        "max_speed" : {
+          "type" : "number",
+          "description" : "Maximum speed of Vectors head in radians per second.",
+          "default" : 10.0,
+          "example" : 10.0
+        },
+        "duration" : {
+          "type" : "number",
+          "description" : "Time for Vector's head to move in seconds. A value of zero will make Vector try to do it as quickly as possible.",
+          "default" : 0.0,
+          "example" : 1.0
         }
       }
     }

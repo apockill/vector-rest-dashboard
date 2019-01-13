@@ -16,8 +16,6 @@ Different actions:
         alignment_type
         distance_from_marker
         num_retries
-        
-        
     - drive_straight
         distance
         speed
@@ -30,6 +28,8 @@ Different actions:
         angle_tolerance
         is_absolute
         num_retries
+        
+        
     - set_head_angle
         angle
         accel
@@ -85,10 +85,20 @@ class DriveStraight(BehaviorResource):
 
 
 @falcon.before(validator)
-class DriveTurn(BehaviorResource):
+class TurnInPlace(BehaviorResource):
     def on_post(self, req: Request, resp: Response, **validated):
         self.robot.behavior.turn_in_place(
             angle=Angle(radians=validated["angle"]),
             speed=Angle(radians=validated["speed"]),
             accel=Angle(radians=validated["accel"]))
         resp.body = "true"
+
+
+@falcon.before(validator)
+class SetHeadAngle(BehaviorResource):
+    def on_post(self, req: Request, resp: Response, **validated):
+        self.robot.behavior.set_head_angle(
+            angle=Angle(radians=validated["angle"]),
+            max_speed=validated["max_speed"],
+            accel=validated["accel"],
+            duration=validated["duration"])
