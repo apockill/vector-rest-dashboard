@@ -12,9 +12,14 @@
       "url" : "https://opensource.org/licenses/MIT"
     }
   },
+  "tags" : [ {
+    "name" : "behavior",
+    "description" : "All movement operations for the robot"
+  } ],
   "paths" : {
     "/api/behavior/drive_off_charger" : {
       "post" : {
+        "tags" : [ "behavior" ],
         "summary" : "Move the robot off of the charging station",
         "produces" : [ "application/json" ],
         "responses" : {
@@ -29,6 +34,7 @@
     },
     "/api/behavior/drive_on_charger" : {
       "post" : {
+        "tags" : [ "behavior" ],
         "summary" : "Tell the robot to find and get onto the charging station",
         "produces" : [ "application/json" ],
         "responses" : {
@@ -43,6 +49,7 @@
     },
     "/api/behavior/dock_with_cube" : {
       "post" : {
+        "tags" : [ "behavior" ],
         "summary" : "Tells Vector to dock with a light cube, optionally using  a given approach angle and distance.",
         "produces" : [ "application/json" ],
         "responses" : {
@@ -57,6 +64,7 @@
     },
     "/api/behavior/drive_straight" : {
       "post" : {
+        "tags" : [ "behavior" ],
         "summary" : "Tells Vector to drive in a straight line.",
         "parameters" : [ {
           "in" : "body",
@@ -80,6 +88,7 @@
     },
     "/api/behavior/turn_in_place" : {
       "post" : {
+        "tags" : [ "behavior" ],
         "summary" : "Turn the robot around its current position.",
         "parameters" : [ {
           "in" : "body",
@@ -103,6 +112,7 @@
     },
     "/api/behavior/set_head_angle" : {
       "post" : {
+        "tags" : [ "behavior" ],
         "summary" : "Tell Vectors head to move to a given angle.",
         "parameters" : [ {
           "in" : "body",
@@ -126,6 +136,7 @@
     },
     "/api/behavior/set_lift_height" : {
       "post" : {
+        "tags" : [ "behavior" ],
         "summary" : "Tell Vectors lift to move to a given height.",
         "parameters" : [ {
           "in" : "body",
@@ -230,17 +241,20 @@
           "type" : "number",
           "description" : "Acceleration of Vectors lift in radian/sec^2",
           "minimum" : 0.0,
-          "default" : 10.0
+          "default" : 10.0,
+          "example" : 10.0
         },
         "max_speed" : {
           "type" : "number",
           "description" : "Maximum speed of Vectors lift in radian/sec",
-          "default" : 10.0
+          "default" : 10.0,
+          "example" : 10.0
         },
         "duration" : {
           "type" : "number",
           "description" : "Time for Vector's lift to move in seconds. A value of zero will make Vector try to do it as quickly as possible.",
-          "default" : 0.0
+          "default" : 0.0,
+          "example" : 0.0
         }
       }
     }

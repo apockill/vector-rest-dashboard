@@ -1,47 +1,9 @@
 import falcon
-from anki_vector import Robot, objects
+from anki_vector import Robot
 from anki_vector.util import Speed, Distance, Angle
-from falcon import Request, Response
+from falcon import Request, Response, errors
 
 from backend.open_api_validator import validator
-
-"""
-Different actions:
-    # Implemented
-    - drive_off_charger
-    - drive_on_charger
-    - dock_with_cube
-        target_object
-        approach_angle
-        alignment_type
-        distance_from_marker
-        num_retries
-    - drive_straight
-        distance
-        speed
-        should_play_anim (t/f)
-        num_retries
-    - turn_in_place
-        angle
-        speed
-        accel
-        angle_tolerance
-        is_absolute
-        num_retries
-    - set_head_angle
-        angle
-        accel
-        max_speed
-        duration
-        num_retries
-        
-    - set_lift_height
-        height
-        accel
-        max_speed
-        duration
-        num_retries
-"""
 
 
 class BehaviorResource:
@@ -66,10 +28,19 @@ class DriveOffCharger(BehaviorResource):
 @falcon.before(validator)
 class DockWithCube(BehaviorResource):
     def on_post(self, req: Request, resp: Response, **validated):
-        self.robot.behavior.dock_with_cube(
-            target=objects.LightCube,
-            approach_angle=None,
-            num_retries=0)
+        self.robot.world.connect_cube()
+        light_cube = self.robot.world.connected_light_cube
+        print("Got light_cube", light_cube)
+        if light_cube:
+            dock_response = self.robot.behavior.dock_with_cube(
+                target_object=light_cube,
+                approach_angle=None,
+                num_retries=0)
+            print("Tried docking, ", dock_response)
+        else:
+            raise errors.HTTPInternalServerError(
+                title="Action Failed",
+                description="Unable to connect to lightcube!")
         resp.body = "true"
 
 
@@ -101,6 +72,7 @@ class SetHeadAngle(BehaviorResource):
             max_speed=validated["max_speed"],
             accel=validated["accel"],
             duration=validated["duration"])
+
 
 @falcon.before(validator)
 class SetLiftHeight(BehaviorResource):
