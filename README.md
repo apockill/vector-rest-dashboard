@@ -32,9 +32,7 @@ $ pip install -r requirements.txt
 2) install front end dependencies:  
 $ cd static
 $ npm install  
-$ npm i webpack --save-dev  
-$ npm i babel-core babel-loader babel-preset-es2015 babel-preset-react --save-dev  
-$ npm i react react-dom --save-dev
+$ cd ..
 
 3) build the front end:  
 $ npm run build  
@@ -45,7 +43,6 @@ py -m anki_vector.configure
 and follow instructions to set up your vector
 
 5) run the server:  
-$ cd ..  
 $ uwsgi uwsgi.ini
 
 6) Access via browser http://localhost:5000/docs and you are good to go :)
