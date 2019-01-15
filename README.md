@@ -10,7 +10,7 @@ from many more languages. This project is meant to provide two things:
 
 ## Docs
 This application uses swagger-ui to generate beautiful interactive REST api 
-documentation. Just go to http://localhost:8000/docs to test out API calls on
+documentation. Just go to http://localhost:5000/docs to test out API calls on
 your vector (while running the application, of course).
 
 ## Running the application:
@@ -25,7 +25,7 @@ $ docker-compose build
 3) run the server:  
 $ docker-compose up
 
-4) Access via browser http://localhost:5000 and you are good to go :)
+4) Access via browser http://localhost:5000/docs and you are good to go :)
 
 #### The less fast way, python:
 1) use pip to install the requirements of the server:  
@@ -56,7 +56,7 @@ and follow instructions to set up your vector
 7) run the server:  
 $ uwsgi uwsgi.ini
 
-8) Access via browser http://localhost:5000 and you are good to go :)
+8) Access via browser http://localhost:5000/docs and you are good to go :)
 
 ## About
 #### Main Technologies:
