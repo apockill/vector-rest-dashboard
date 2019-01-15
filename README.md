@@ -1,21 +1,33 @@
 # Vector Dashboard
 A webapp + REST api for controlling your Anki Vector robot friend.
 
-## Main Technologies:
-* Python
-* pip
-* Flask
-* Javascript
-* ReactJS
-* NPM
-* webpack
-* CSS
-* Docker
-* Swagger UI
+## What's this all about?
+REST api's are awesome and let a lot more people have access to their vector's
+from many more languages. This project is meant to provide two things:
 
-## Building the application:
+1) A REST api that mirrors the vector Python API as closely as possible
+2) A webapp frontend for controlling the vector remotely
 
-Option 1: python server  
+## Docs
+This application uses swagger-ui to generate beautiful interactive REST api 
+documentation. Just go to http://localhost:8000/docs to test out API calls on
+your vector (while running the application, of course).
+
+## Running the application:
+#### The fast way, docker:
+1) Set up your vector
+py -m anki_vector.configure  
+and follow instructions to set up your vector
+
+2) build the application:  
+$ docker-compose build
+
+3) run the server:  
+$ docker-compose up
+
+4) Access via browser http://localhost:5000 and you are good to go :)
+
+#### The less fast way, python:
 1) use pip to install the requirements of the server:  
 $ pip install -r requirements.txt  
 Obs.: I highly recommend to use a virtual env to avoid dependency conflicts.
@@ -46,20 +58,19 @@ $ uwsgi uwsgi.ini
 
 8) Access via browser http://localhost:5000 and you are good to go :)
 
+## About
+#### Main Technologies:
+* Python
+* pip
+* Flask
+* Javascript
+* ReactJS
+* NPM
+* webpack
+* CSS
+* Docker
+* Swagger UI
 
-Option 2: Docker  
-1) Set up your vector
-py -m anki_vector.configure  
-and follow instructions to set up your vector
-
-2) build the application:  
-$ docker-compose build
-
-3) run the server:  
-$ docker-compose up
-
-4) Access via browser http://localhost:5000 and you are good to go :)
-
-### Creating the swagger.json
+#### Creating the swagger.json
 I currently use [this website](https://app.swaggerhub.com) to build my API docs.
 If you would like to contribute to this project, I can share you in on it. 
