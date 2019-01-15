@@ -3,30 +3,26 @@ from anki_vector import Robot
 from anki_vector.util import Speed, Distance, Angle
 from falcon import Request, Response, errors
 
+from .robot import RobotResource
 from backend.open_api_validator import validator
 
 
-class BehaviorResource:
-    def __init__(self, robot: Robot):
-        self.robot: Robot = robot
-
-
 @falcon.before(validator)
-class DriveOnCharger(BehaviorResource):
+class DriveOnCharger(RobotResource):
     def on_post(self, req: Request, resp: Response, **validated):
         self.robot.behavior.drive_on_charger()
         resp.body = "true"
 
 
 @falcon.before(validator)
-class DriveOffCharger(BehaviorResource):
+class DriveOffCharger(RobotResource):
     def on_post(self, req: Request, resp: Response, **validated):
         self.robot.behavior.drive_off_charger()
         resp.body = "true"
 
 
 @falcon.before(validator)
-class DockWithCube(BehaviorResource):
+class DockWithCube(RobotResource):
     def on_post(self, req: Request, resp: Response, **validated):
         self.robot.world.connect_cube()
         light_cube = self.robot.world.connected_light_cube
@@ -45,7 +41,7 @@ class DockWithCube(BehaviorResource):
 
 
 @falcon.before(validator)
-class DriveStraight(BehaviorResource):
+class DriveStraight(RobotResource):
     def on_post(self, req: Request, resp: Response, **validated):
         self.robot.behavior.drive_straight(
             distance=Distance(distance_mm=validated["distance"]),
@@ -55,7 +51,7 @@ class DriveStraight(BehaviorResource):
 
 
 @falcon.before(validator)
-class TurnInPlace(BehaviorResource):
+class TurnInPlace(RobotResource):
     def on_post(self, req: Request, resp: Response, **validated):
         self.robot.behavior.turn_in_place(
             angle=Angle(radians=validated["angle"]),
@@ -65,7 +61,7 @@ class TurnInPlace(BehaviorResource):
 
 
 @falcon.before(validator)
-class SetHeadAngle(BehaviorResource):
+class SetHeadAngle(RobotResource):
     def on_post(self, req: Request, resp: Response, **validated):
         self.robot.behavior.set_head_angle(
             angle=Angle(radians=validated["angle"]),
@@ -75,7 +71,7 @@ class SetHeadAngle(BehaviorResource):
 
 
 @falcon.before(validator)
-class SetLiftHeight(BehaviorResource):
+class SetLiftHeight(RobotResource):
     def on_post(self, req: Request, resp: Response, **validated):
         self.robot.behavior.set_lift_height(
             height=validated["height"],

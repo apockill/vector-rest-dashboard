@@ -13,58 +13,93 @@
     }
   },
   "tags" : [ {
-    "name" : "behavior",
+    "name" : "robot",
+    "description" : "All operations directly related to robot state"
+  }, {
+    "name" : "robot.behavior",
     "description" : "All movement operations for the robot"
+  }, {
+    "name" : "robot.camera",
+    "description" : "All operations regarding getting frames from the camera"
   } ],
   "paths" : {
-    "/api/behavior/drive_off_charger" : {
+    "/api/robot/get_battery_state" : {
+      "get" : {
+        "tags" : [ "robot" ],
+        "summary" : "Get all battery information from the robot.",
+        "produces" : [ "application/json" ],
+        "responses" : {
+          "200" : {
+            "description" : "Information about the robots battery level",
+            "schema" : {
+              "$ref" : "#/definitions/BatteryStateResponse"
+            }
+          },
+          "503" : {
+            "$ref" : "#/definitions/StatusCode503Robot"
+          }
+        }
+      }
+    },
+    "/api/robot/camera" : {
+      "get" : {
+        "tags" : [ "robot.camera" ],
+        "summary" : "Recieve an MJPEG stream of the robots camera",
+        "responses" : {
+          "200" : {
+            "$ref" : "#/definitions/StatusCode200Robot"
+          }
+        }
+      }
+    },
+    "/api/robot/behavior/drive_off_charger" : {
       "post" : {
-        "tags" : [ "behavior" ],
+        "tags" : [ "robot.behavior" ],
         "summary" : "Move the robot off of the charging station",
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Returns this code if the robot was reached"
+            "$ref" : "#/definitions/StatusCode200Robot"
           },
           "503" : {
-            "description" : "Unable to connect to robot"
+            "$ref" : "#/definitions/StatusCode503Robot"
           }
         }
       }
     },
-    "/api/behavior/drive_on_charger" : {
+    "/api/robot/behavior/drive_on_charger" : {
       "post" : {
-        "tags" : [ "behavior" ],
+        "tags" : [ "robot.behavior" ],
         "summary" : "Tell the robot to find and get onto the charging station",
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Returns this code if the robot was reached"
+            "$ref" : "#/definitions/StatusCode200Robot"
           },
           "503" : {
-            "description" : "Unable to connect to robot"
+            "$ref" : "#/definitions/StatusCode503Robot"
           }
         }
       }
     },
-    "/api/behavior/dock_with_cube" : {
+    "/api/robot/behavior/dock_with_cube" : {
       "post" : {
-        "tags" : [ "behavior" ],
+        "tags" : [ "robot.behavior" ],
         "summary" : "Tells Vector to dock with a light cube, optionally using  a given approach angle and distance.",
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Returns this code if the robot was reached"
+            "$ref" : "#/definitions/StatusCode200Robot"
           },
           "503" : {
-            "description" : "Unable to connect to robot"
+            "$ref" : "#/definitions/StatusCode503Robot"
           }
         }
       }
     },
-    "/api/behavior/drive_straight" : {
+    "/api/robot/behavior/drive_straight" : {
       "post" : {
-        "tags" : [ "behavior" ],
+        "tags" : [ "robot.behavior" ],
         "summary" : "Tells Vector to drive in a straight line.",
         "parameters" : [ {
           "in" : "body",
@@ -78,17 +113,17 @@
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Returns this code if the robot was reached"
+            "$ref" : "#/definitions/StatusCode200Robot"
           },
           "503" : {
-            "description" : "Unable to connect to robot"
+            "$ref" : "#/definitions/StatusCode503Robot"
           }
         }
       }
     },
-    "/api/behavior/turn_in_place" : {
+    "/api/robot/behavior/turn_in_place" : {
       "post" : {
-        "tags" : [ "behavior" ],
+        "tags" : [ "robot.behavior" ],
         "summary" : "Turn the robot around its current position.",
         "parameters" : [ {
           "in" : "body",
@@ -102,17 +137,17 @@
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Returns this code if the robot was reached"
+            "$ref" : "#/definitions/StatusCode200Robot"
           },
           "503" : {
-            "description" : "Unable to connect to robot"
+            "$ref" : "#/definitions/StatusCode503Robot"
           }
         }
       }
     },
-    "/api/behavior/set_head_angle" : {
+    "/api/robot/behavior/set_head_angle" : {
       "post" : {
-        "tags" : [ "behavior" ],
+        "tags" : [ "robot.behavior" ],
         "summary" : "Tell Vectors head to move to a given angle.",
         "parameters" : [ {
           "in" : "body",
@@ -126,17 +161,17 @@
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Returns this code if the robot was reached"
+            "$ref" : "#/definitions/StatusCode200Robot"
           },
           "503" : {
-            "description" : "Unable to connect to robot"
+            "$ref" : "#/definitions/StatusCode503Robot"
           }
         }
       }
     },
-    "/api/behavior/set_lift_height" : {
+    "/api/robot/behavior/set_lift_height" : {
       "post" : {
-        "tags" : [ "behavior" ],
+        "tags" : [ "robot.behavior" ],
         "summary" : "Tell Vectors lift to move to a given height.",
         "parameters" : [ {
           "in" : "body",
@@ -150,10 +185,10 @@
         "produces" : [ "application/json" ],
         "responses" : {
           "200" : {
-            "description" : "Returns this code if the robot was reached"
+            "$ref" : "#/definitions/StatusCode200Robot"
           },
           "503" : {
-            "description" : "Unable to connect to robot"
+            "$ref" : "#/definitions/StatusCode503Robot"
           }
         }
       }
@@ -255,6 +290,27 @@
           "description" : "Time for Vector's lift to move in seconds. A value of zero will make Vector try to do it as quickly as possible.",
           "default" : 0.0,
           "example" : 0.0
+        }
+      }
+    },
+    "StatusCode200Robot" : {
+      "description" : "Returns this code if the robot was reached"
+    },
+    "StatusCode503Robot" : {
+      "description" : "This is received when the robot could not be connected with"
+    },
+    "BatteryStateResponse" : {
+      "type" : "object",
+      "properties" : {
+        "battery_level" : {
+          "type" : "string",
+          "enum" : [ "BATTERY_LEVEL_FULL", "BATTERY_LEVEL_NOMINAL", "BATTERY_LEVEL_LOW", "BATTERY_LEVEL_UNKNOWN" ]
+        },
+        "is_on_charging_platform" : {
+          "type" : "boolean"
+        },
+        "battery_volts" : {
+          "type" : "number"
         }
       }
     }

@@ -73,22 +73,32 @@ def create_app(robot: Robot) -> falcon.API:
 
     # Create all of the resources
     app.add_static_route(prefix="/", directory=str(STATIC_DIR))
-    app.add_route("/api/camera", camera)
+
     app.add_route("/", index)
-    app.add_route("/api/behavior/drive_off_charger",
+
+    # robot resources
+    app.add_route("/api/robot/get_battery_state",
+                  resources.GetBatteryState(robot))
+
+    # robot.camera resources
+    app.add_route("/api/robot/camera", camera)
+
+    # robot.behavior resources
+    app.add_route("/api/robot/behavior/drive_off_charger",
                   resources.DriveOffCharger(robot))
-    app.add_route("/api/behavior/drive_on_charger",
+    app.add_route("/api/robot/behavior/drive_on_charger",
                   resources.DriveOnCharger(robot))
-    app.add_route("/api/behavior/dock_with_cube",
+    app.add_route("/api/robot/behavior/dock_with_cube",
                   resources.DockWithCube(robot))
-    app.add_route("/api/behavior/drive_straight",
+    app.add_route("/api/robot/behavior/drive_straight",
                   resources.DriveStraight(robot))
-    app.add_route("/api/behavior/turn_in_place",
+    app.add_route("/api/robot/behavior/turn_in_place",
                   resources.TurnInPlace(robot))
-    app.add_route("/api/behavior/set_head_angle",
+    app.add_route("/api/robot/behavior/set_head_angle",
                   resources.SetHeadAngle(robot))
-    app.add_route("/api/behavior/set_lift_height",
+    app.add_route("/api/robot/behavior/set_lift_height",
                   resources.SetLiftHeight(robot))
+
 
     # Register swagger UI
     register_swaggerui_app(
