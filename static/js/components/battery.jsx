@@ -3,7 +3,10 @@ import React from "react";
 class VectorBatteryStatus extends React.Component {
     constructor() {
         super();
-        this.state = {isLoaded: false}
+        this.state = {isLoaded: false,
+                      is_charging: "hello",
+                      battery_volts: null};
+        this.timer = null;
     };
 
     fetchData() {
@@ -13,7 +16,8 @@ class VectorBatteryStatus extends React.Component {
                 (result) => {
                     this.setState({
                         isLoaded: true,
-                        battery_level: result.battery_level
+                        battery_level: result.battery_volts,
+                        is_charging: result.is_charging
                     });
                 },
                 // Note: it's important to handle errors here
@@ -32,20 +36,17 @@ class VectorBatteryStatus extends React.Component {
     componentDidMount() {
         // This will be called just once
         this.fetchData();
-
-        this.interval = setInterval(() => {
-            this.fetchData()
-        }, 10000)
+        this.timer = setInterval(() => this.fetchData(), 1000);
     }
 
     componentWillUnmount() {
         // It's necessary to do this otherwise the interval
         // will be executed even if the component is not present anymore.
-        clearInterval(this.interval);
+        clearInterval(this.timer);
     }
 
     render() {
-        const {error, isLoaded, battery_level} = this.state;
+        const {error, isLoaded, battery_level, is_charging} = this.state;
         if (error) {
             return <div>Error: {error.message}</div>
         } else if (!isLoaded) {
