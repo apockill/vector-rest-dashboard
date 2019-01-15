@@ -30,7 +30,7 @@ $ pip install -r requirements.txt
   I highly recommend to use a virtual env to avoid dependency conflicts.
 
 2) install front end dependencies:  
-$ cd static
+$ cd static  
 $ npm install  
 $ cd ..
 
