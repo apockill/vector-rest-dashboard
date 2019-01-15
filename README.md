@@ -19,13 +19,10 @@ your vector (while running the application, of course).
 py -m anki_vector.configure  
 and follow instructions to set up your vector
 
-2) build the application:  
-$ docker-compose build
+2) build and run the server:  
+$ docker-compose build && docker-compose up
 
-3) run the server:  
-$ docker-compose up
-
-4) Access via browser http://localhost:5000/docs and you are good to go :)
+3) Access via browser http://localhost:5000/docs and you are good to go :)
 
 #### The less fast way, python:
 1) use pip to install the requirements of the server:  
