@@ -48,11 +48,11 @@ def create_robot(cert_path: str) -> Robot:
             print("Unable to connect to Vector! Trying again...")
 
     # Check if the robot is charged
-    battery_charge_time_left = robot.get_battery_state().suggested_charger_sec
-    while battery_charge_time_left > 0:
-        print(f"Charging: {battery_charge_time_left} seconds left...")
-        battery_charge_time_left = robot.get_battery_state().suggested_charger_sec
-        sleep(1)
+    # battery_charge_time_left = robot.get_battery_state().suggested_charger_sec
+    # while battery_charge_time_left > 0:
+    #     print(f"Charging: {battery_charge_time_left} seconds left...")
+    #     battery_charge_time_left = robot.get_battery_state().suggested_charger_sec
+    #     sleep(1)
 
     # Get control and move a little, so as to build a map (seems to help bugs?)
     robot.conn.request_control()

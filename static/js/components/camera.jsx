@@ -3,7 +3,7 @@ import React from "react";
 class VectorCameraStream extends React.Component {
     render() {
         return (
-            <img src="/api/camera"/>
+            <img src="/api/robot/camera"/>
         )
     }
 }

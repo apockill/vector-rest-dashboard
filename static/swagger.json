@@ -306,11 +306,20 @@
           "type" : "string",
           "enum" : [ "BATTERY_LEVEL_FULL", "BATTERY_LEVEL_NOMINAL", "BATTERY_LEVEL_LOW", "BATTERY_LEVEL_UNKNOWN" ]
         },
-        "is_on_charging_platform" : {
-          "type" : "boolean"
-        },
         "battery_volts" : {
           "type" : "number"
+        },
+        "is_charging" : {
+          "type" : "boolean",
+          "description" : "If the robot is actively charging"
+        },
+        "is_on_charging_platform" : {
+          "type" : "boolean",
+          "description" : "If the robot is physically on the platform"
+        },
+        "suggested_charger_sec" : {
+          "type" : "number",
+          "description" : "How many seconds left for the robot to charge to ideal level"
         }
       }
     }

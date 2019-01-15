@@ -1,4 +1,4 @@
-from .behavior import (
+from .robot_behavior import (
     DriveOffCharger,
     DriveOnCharger,
     DockWithCube,
@@ -7,5 +7,8 @@ from .behavior import (
     SetHeadAngle,
     SetLiftHeight
 )
-from .camera import CameraResource
+from .robot import (
+    GetBatteryState
+)
+from .robot_camera import CameraResource
 from .index import IndexResource
