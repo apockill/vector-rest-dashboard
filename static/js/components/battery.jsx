@@ -6,7 +6,7 @@ import {
     TiBatteryHigh,
     TiBatteryLow
 } from 'react-icons/ti'
-import * as api from "../services/api"
+import robot from "../services/api"
 
 class VectorBatteryStatus extends React.Component {
     constructor() {
@@ -22,7 +22,7 @@ class VectorBatteryStatus extends React.Component {
     };
 
     fetchData() {
-        api.get("robot/get_battery_state")
+        robot.getBatteryState()
             .then(
                 (result) => {
                     this.setState({

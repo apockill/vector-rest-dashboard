@@ -1,7 +1,7 @@
 import React from "react";
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import * as api from '../services/api'
+import robot from '../services/api'
 
 class VectorMove extends React.Component {
     constructor() {
@@ -12,11 +12,8 @@ class VectorMove extends React.Component {
         this.timer = null;
     };
 
-    drive_straight(distance, speed) {
-        api.post("robot/behavior/drive_straight", {
-            distance: distance,
-            speed: speed
-        })
+    driveStraight(distance, speed) {
+        robot.driveStraight(distance, speed)
             .then(
                 (result) => {
                     this.setState({
@@ -39,7 +36,7 @@ class VectorMove extends React.Component {
                 <div>ayy</div>
                 <div>
                     <Button
-                        onClick={() => this.drive_straight(100, 60)}
+                        onClick={() => this.driveStraight(100, 60)}
                     >
                         Forward
                     </Button>
