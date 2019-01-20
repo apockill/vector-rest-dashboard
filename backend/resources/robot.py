@@ -28,5 +28,4 @@ class GetBatteryState(RobotResource):
             "is_on_charger_platform": battery_response.is_on_charger_platform,
             "suggested_charger_sec": battery_response.suggested_charger_sec
         }
-        print("Battery info", resp_dict)
         resp.body = ujson.dumps(resp_dict)
