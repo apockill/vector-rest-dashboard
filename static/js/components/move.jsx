@@ -1,16 +1,16 @@
 import React from "react";
-import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import {
     TiArrowBack,
-    TiArrowDown,
+    TiArrowDownThick,
     TiArrowForward,
-    TiArrowUp
+    TiArrowUpThick,
 } from 'react-icons/ti'
 
+import {FaBinoculars, FaCube, FaHome} from 'react-icons/fa'
 import robot from '../services/api'
 
 
@@ -22,7 +22,7 @@ const styles = theme => ({
     button: {
         margin: theme.spacing.unit
     },
-    arrow: {
+    icon: {
         fontSize: "60px"
     }
 });
@@ -79,58 +79,74 @@ class VectorMove extends React.Component {
         let straight_speed = 60;  // mm/s
 
         return (
-            <Paper className={classes.root}>
+            <div className={classes.root}>
                 <Grid container spacing={10}>
-                    <Grid item xs={10}>
+                    <Grid item xs={8}>
                         <Button
-                            onClick={() => this.driveStraight(
+                            onMouseDown={() => this.driveStraight(
                                 straight_unit,
                                 straight_speed)}
                             classes={classes.button}
                         >
-                            <TiArrowUp
-                                className={classes.arrow}
+                            <TiArrowUpThick
+                                className={classes.icon}
                             />
                         </Button>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={2}>
+                        <Button  onClick={robot.behavior.driveOnCharger}>
+                            <FaHome className={classes.icon}/>
+                        </Button>
+                    </Grid>
+                    <Grid item xs={4}>
                         <Button
-                            onClick={() => this.turnInPlace(
+                            onMouseDown={() => this.turnInPlace(
                                 turn_unit,
                                 turn_speed, 0)}
                             classes={classes.button}
                         >
                             <TiArrowBack
-                                className={classes.arrow}
+                                className={classes.icon}
                             />
                         </Button>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={4}>
                         <Button
-                            onClick={() => this.turnInPlace(
+                            onMouseDown={() => this.turnInPlace(
                                 -turn_unit,
                                 turn_speed, 0)}
+                            
                             classes={classes.button}
                         >
                             <TiArrowForward
-                                className={classes.arrow}
+                                className={classes.icon}
                             />
                         </Button>
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={2}>
+                        <Button  onClick={robot.behavior.driveOffCharger}>
+                            <FaBinoculars className={classes.icon}/>
+                        </Button>
+                    </Grid>
+                    <Grid item xs={8}>
                         <Button
-                            onClick={() => this.driveStraight(
+                            onMouseDown={() => this.driveStraight(
                                 -straight_unit,
                                 straight_speed)}
                             classes={classes.button}
                         >
-                            <TiArrowDown
-                                className={classes.arrow}
+                            <TiArrowDownThick
+                                className={classes.icon}
                             />
                         </Button>
                     </Grid>
+                    <Grid item xs={2}>
+                        <Button  onClick={robot.behavior.dockWithCube}>
+                            <FaCube className={classes.icon}/>
+                        </Button>
+                    </Grid>
                 </Grid>
-            </Paper>
+            </div>
         )
 
     }

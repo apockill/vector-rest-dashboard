@@ -30,6 +30,15 @@ class Behavior {
             accel: accel
         })
     }
+    dockWithCube(angle, speed, accel) {
+        return post("/api/robot/behavior/dock_with_cube", {})
+    }
+    driveOnCharger(angle, speed, accel) {
+        return post("/api/robot/behavior/drive_on_charger", {})
+    }
+    driveOffCharger(angle, speed, accel) {
+        return post("/api/robot/behavior/drive_off_charger", {})
+    }
 }
 
 class Robot {

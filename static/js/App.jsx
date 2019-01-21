@@ -1,6 +1,8 @@
 import React from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Card from "@material-ui/core/Card";
+import Divider from '@material-ui/core/Divider';
+
 import VectorCameraStream from "./components/camera"
 import VectorBatteryStatus from "./components/battery"
 import VectorMove from "./components/move"
@@ -19,7 +21,9 @@ class App extends React.Component {
                         marginRight: "auto"
                     }}>
                     <VectorBatteryStatus/>
+                    <Divider/>
                     <VectorMove/>
+                    <Divider/>
                     <VectorCameraStream/>
                 </Card>
             </div>

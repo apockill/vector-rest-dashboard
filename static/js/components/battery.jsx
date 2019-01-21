@@ -1,5 +1,4 @@
 import React from "react";
-import Paper from '@material-ui/core/Paper';
 import {
     TiBatteryCharge,
     TiBatteryFull,
@@ -94,7 +93,7 @@ class VectorBatteryStatus extends React.Component {
         }
 
         return (
-            <Paper>
+            <div>
                 <div style={{marginBottom: "-20px"}}>
                     {battery_icon({size: 100})}
                 </div>
@@ -102,7 +101,7 @@ class VectorBatteryStatus extends React.Component {
                     {charge_time_text}
                 </div>
 
-            </Paper>
+            </div>
         )
 
     }
