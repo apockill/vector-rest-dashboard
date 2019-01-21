@@ -1,6 +1,6 @@
 // Helpers
 function post(endpoint, body) {
-    return fetch(`/api/${endpoint}`, {
+    return fetch(endpoint, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -11,15 +11,23 @@ function post(endpoint, body) {
 }
 
 function get(endpoint) {
-    return fetch(`/api/${endpoint}`).then(res => res.json())
+    return fetch(endpoint).then(res => res.json())
 }
 
 class Behavior {
     // Behavior functions for the robot
     driveStraight(distance, speed) {
-        return post("robot/behavior/drive_straight", {
+        return post("/api/robot/behavior/drive_straight", {
             distance: distance,
             speed: speed
+        })
+    }
+
+    turnInPlace(angle, speed, accel) {
+        return post("/api/robot/behavior/turn_in_place", {
+            angle: angle,
+            speed: speed,
+            accel: accel
         })
     }
 }
@@ -32,16 +40,15 @@ class Robot {
      **/
 
     constructor() {
-        this.behavior = Behavior()
+        this.behavior = new Behavior()
     }
 
     // Robot functions
     getBatteryState() {
-        return get("robot/get_battery_state")
+        return get("/api/robot/get_battery_state")
     }
-
-
 }
 
 let robot = new Robot();
+
 export default robot
