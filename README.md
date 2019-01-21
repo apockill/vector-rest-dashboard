@@ -49,14 +49,9 @@ $ uwsgi uwsgi.ini
 
 ## About
 #### Main Technologies:
-* Python
-* pip
-* Flask
-* Javascript
+* Falcon
 * ReactJS
-* NPM
 * webpack
-* CSS
 * Docker
 * Swagger UI
 
