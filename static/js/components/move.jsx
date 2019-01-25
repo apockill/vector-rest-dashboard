@@ -94,7 +94,7 @@ class VectorMove extends React.Component {
                         </Button>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button  onClick={robot.behavior.driveOnCharger}>
+                        <Button onClick={robot.behavior.driveOnCharger}>
                             <FaHome className={classes.icon}/>
                         </Button>
                     </Grid>
@@ -115,7 +115,7 @@ class VectorMove extends React.Component {
                             onMouseDown={() => this.turnInPlace(
                                 -turn_unit,
                                 turn_speed, 0)}
-                            
+
                             classes={classes.button}
                         >
                             <TiArrowForward
@@ -124,7 +124,7 @@ class VectorMove extends React.Component {
                         </Button>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button  onClick={robot.behavior.driveOffCharger}>
+                        <Button onClick={robot.behavior.driveOffCharger}>
                             <FaBinoculars className={classes.icon}/>
                         </Button>
                     </Grid>
@@ -141,7 +141,7 @@ class VectorMove extends React.Component {
                         </Button>
                     </Grid>
                     <Grid item xs={2}>
-                        <Button  onClick={robot.behavior.dockWithCube}>
+                        <Button onClick={robot.behavior.dockWithCube}>
                             <FaCube className={classes.icon}/>
                         </Button>
                     </Grid>
