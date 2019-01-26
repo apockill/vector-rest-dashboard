@@ -2,7 +2,6 @@ import React from "react";
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
-import Slider from '@material-ui/lab/Slider';
 import PropTypes from 'prop-types';
 import {
     TiArrowDownThick,
@@ -10,7 +9,6 @@ import {
     TiArrowRightThick,
     TiArrowUpThick,
 } from 'react-icons/ti'
-import {FaBinoculars, FaCube, FaHome} from 'react-icons/fa'
 
 import robot from '../services/api'
 
@@ -26,7 +24,6 @@ const styles = theme => ({
         value: 100
     }
 });
-
 
 
 class VectorMove extends React.Component {
@@ -83,9 +80,7 @@ class VectorMove extends React.Component {
         return (
             <div className={classes.root}>
                 <Grid container spacing={10}>
-
-                    {/**/}
-                    <Grid item xs={10}>
+                    <Grid item xs={12}>
                         <Button
                             onMouseDown={() => this.driveStraight(
                                 straight_unit,
@@ -97,7 +92,7 @@ class VectorMove extends React.Component {
                             />
                         </Button>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={6}>
                         <Button
                             onMouseDown={() => this.turnInPlace(
                                 turn_unit,
@@ -109,7 +104,7 @@ class VectorMove extends React.Component {
                             />
                         </Button>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={6}>
                         <Button
                             onMouseDown={() => this.turnInPlace(
                                 -turn_unit,
@@ -122,7 +117,7 @@ class VectorMove extends React.Component {
                             />
                         </Button>
                     </Grid>
-                    <Grid item xs={10}>
+                    <Grid item xs={12}>
                         <Button
                             onMouseDown={() => this.driveStraight(
                                 -straight_unit,

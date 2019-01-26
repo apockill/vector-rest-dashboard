@@ -19,27 +19,31 @@ const styles = theme => ({
 });
 
 
-const VectorActionPanel = (classes) => (
-    <div className={classes.root}>
-        <Grid container spacing={3}>
-            <Grid item xs={3}>
-                <Button onClick={robot.behavior.driveOnCharger}>
-                    <FaHome className={classes.icon}/>
-                </Button>
+function VectorActionPanel(props) {
+    const {classes} = props;
+
+    return (
+        <div className={classes.root}>
+            <Grid container spacing={10}>
+                <Grid item xs={12}>
+                    <Button onClick={robot.behavior.driveOnCharger}>
+                        <FaHome className={classes.icon}/>
+                    </Button>
+                </Grid>
+                <Grid item xs={12}>
+                    <Button onClick={robot.behavior.driveOffCharger}>
+                        <FaBinoculars className={classes.icon}/>
+                    </Button>
+                </Grid>
+                <Grid item xs={12}>
+                    <Button onClick={robot.behavior.dockWithCube}>
+                        <FaCube className={classes.icon}/>
+                    </Button>
+                </Grid>
             </Grid>
-            <Grid item xs={3}>
-                <Button onClick={robot.behavior.driveOffCharger}>
-                    <FaBinoculars className={classes.icon}/>
-                </Button>
-            </Grid>
-            <Grid item xs={3}>
-                <Button onClick={robot.behavior.dockWithCube}>
-                    <FaCube className={classes.icon}/>
-                </Button>
-            </Grid>
-        </Grid>
-    </div>
-);
+        </div>
+    )
+}
 
 VectorActionPanel.propTypes = {
     classes: PropTypes.object.isRequired,
