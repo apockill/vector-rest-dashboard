@@ -3,9 +3,10 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import Card from "@material-ui/core/Card";
 import Divider from '@material-ui/core/Divider';
 
-import VectorCameraStream from "./components/camera"
-import VectorBatteryStatus from "./components/battery"
-import VectorMove from "./components/move"
+import VectorCameraStream from "./components/VectorCameraStream"
+import VectorBatteryStatus from "./components/VectorBatteryStatus"
+import VectorMove from "./components/VectorMove"
+import ActionPanel from './components/VectorActionPanel'
 
 // Main Page
 class App extends React.Component {
@@ -23,6 +24,7 @@ class App extends React.Component {
                     <VectorBatteryStatus/>
                     <Divider/>
                     <VectorMove/>
+                    <ActionPanel/>
                     <Divider/>
                     <VectorCameraStream/>
                 </Card>
