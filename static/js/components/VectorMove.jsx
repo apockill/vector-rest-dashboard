@@ -17,7 +17,7 @@ const styles = theme => ({
         flexGrow: 1,
         textAlign: 'center'
     },
-    icon: {
+    iconButton: {
         fontSize: "60px"
     },
     slider: {
@@ -33,7 +33,6 @@ class VectorMove extends React.Component {
             success_straight: false,
             success_turn: false
         };
-        this.timer = null;
     };
 
     driveStraight(distance, speed) {
@@ -69,7 +68,7 @@ class VectorMove extends React.Component {
     }
 
     render() {
-        const {success_turn} = this.state;
+        const {success_turn, success_straight} = this.state;
         const {classes} = this.props;
 
         let turn_unit = 0.523599; // 30 degrees radians
@@ -88,7 +87,7 @@ class VectorMove extends React.Component {
                             classes={classes.button}
                         >
                             <TiArrowUpThick
-                                className={classes.icon}
+                                className={classes.iconButton}
                             />
                         </Button>
                     </Grid>
@@ -100,7 +99,7 @@ class VectorMove extends React.Component {
                             classes={classes.button}
                         >
                             <TiArrowLeftThick
-                                className={classes.icon}
+                                className={classes.iconButton}
                             />
                         </Button>
                     </Grid>
@@ -113,7 +112,7 @@ class VectorMove extends React.Component {
                             classes={classes.button}
                         >
                             <TiArrowRightThick
-                                className={classes.icon}
+                                className={classes.iconButton}
                             />
                         </Button>
                     </Grid>
@@ -125,7 +124,7 @@ class VectorMove extends React.Component {
                             classes={classes.button}
                         >
                             <TiArrowDownThick
-                                className={classes.icon}
+                                className={classes.iconButton}
                             />
                         </Button>
                     </Grid>

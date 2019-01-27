@@ -13,7 +13,7 @@ const styles = theme => ({
         flexGrow: 1,
         textAlign: 'center'
     },
-    icon: {
+    iconButton: {
         fontSize: "60px"
     }
 });
@@ -27,17 +27,17 @@ function VectorActionPanel(props) {
             <Grid container spacing={10}>
                 <Grid item xs={12}>
                     <Button onClick={robot.behavior.driveOnCharger}>
-                        <FaHome className={classes.icon}/>
+                        <FaHome className={classes.iconButton}/>
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
                     <Button onClick={robot.behavior.driveOffCharger}>
-                        <FaBinoculars className={classes.icon}/>
+                        <FaBinoculars className={classes.iconButton}/>
                     </Button>
                 </Grid>
                 <Grid item xs={12}>
                     <Button onClick={robot.behavior.dockWithCube}>
-                        <FaCube className={classes.icon}/>
+                        <FaCube className={classes.iconButton}/>
                     </Button>
                 </Grid>
             </Grid>

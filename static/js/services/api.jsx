@@ -30,15 +30,37 @@ class Behavior {
             accel: accel
         })
     }
-    dockWithCube(angle, speed, accel) {
+
+    setHeadAngle(angle, accel, maxSpeed, duration){
+        return post("/api/robot/behavior/set_head_angle", {
+            angle: angle,
+            accel: accel,
+            max_speed: maxSpeed,
+            duration: duration
+        })
+    }
+
+    setLiftHeight(height, accel, maxSpeed, duration){
+        return post("/api/robot/behavior/set_lift_height", {
+            height: height,
+            accel: accel,
+            max_speed: maxSpeed,
+            duration: duration
+        })
+    }
+
+    dockWithCube() {
         return post("/api/robot/behavior/dock_with_cube", {})
     }
-    driveOnCharger(angle, speed, accel) {
+
+    driveOnCharger() {
         return post("/api/robot/behavior/drive_on_charger", {})
     }
-    driveOffCharger(angle, speed, accel) {
+
+    driveOffCharger() {
         return post("/api/robot/behavior/drive_off_charger", {})
     }
+
 }
 
 class Robot {

@@ -1,10 +1,9 @@
 import falcon
-from anki_vector import Robot
 from anki_vector.util import Speed, Distance, Angle
 from falcon import Request, Response, errors
 
-from .robot import RobotResource
 from backend.open_api_validator import validator
+from .robot import RobotResource
 
 
 @falcon.before(validator)
@@ -68,6 +67,7 @@ class SetHeadAngle(RobotResource):
             max_speed=validated["max_speed"],
             accel=validated["accel"],
             duration=validated["duration"])
+        resp.body = "true"
 
 
 @falcon.before(validator)
@@ -78,3 +78,4 @@ class SetLiftHeight(RobotResource):
             accel=validated["accel"],
             max_speed=validated["max_speed"],
             duration=validated["duration"])
+        resp.body = "true"

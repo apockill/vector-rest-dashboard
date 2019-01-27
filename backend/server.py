@@ -5,7 +5,7 @@ from anki_vector import Robot
 from anki_vector.exceptions import VectorNotFoundException
 from falcon_swagger_ui import register_swaggerui_app
 
-from backend import resources, STATIC_DIR
+from backend import resources, STATIC_DIR, DIST_DIR
 
 
 def generic_error_handler(ex: Exception, req, resp, params):
