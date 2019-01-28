@@ -48,7 +48,6 @@ class VectorAngleControl extends React.Component {
 
         return (
             <div className={classes.root}>
-
                 <Grid container spacing={10}>
                     <Grid item xs={12}>
                         <Slider
@@ -72,6 +71,7 @@ class VectorAngleControl extends React.Component {
     }
 
     updateState(event, value) {
+        console.log(event);
         this.setState({value});
     }
 }
