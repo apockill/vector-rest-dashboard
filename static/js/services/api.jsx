@@ -1,84 +1,70 @@
-// Helpers
-function post(endpoint, body) {
-    return fetch(endpoint, {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body)
-    }).then(res => res.json())
-}
+import ApiEndpoint from "./endpoint"
 
-function get(endpoint) {
-    return fetch(endpoint).then(res => res.json())
-}
-
-class ApiEndpoing {
-    constructor(url) {
-
-    }
-
-}
 
 class Behavior {
     constructor() {
-        this.apiState = {
-            driveStraight: false,
-            turnInPlace: false,
-            setHeadAngle: false,
-            setLiftHeight: false,
-            dockWithCube: false,
-            driveOnCharger: false,
-            driveOffCharger: false
-        }
+
+        this.apiDriveStraight = new ApiEndpoint(
+            "/api/robot/behavior/drive_straight");
+        this.apiTurnInPlace = new ApiEndpoint(
+            "/api/robot/behavior/turn_in_place");
+        this.apiSetHeadAngle = new ApiEndpoint(
+            "/api/robot/behavior/set_head_angle");
+        this.apiSetLiftAngle = new ApiEndpoint(
+            "/api/robot/behavior/set_lift_height");
+        this.apiDockWithCube = new ApiEndpoint(
+            "/api/robot/behavior/dock_with_cube");
+        this.apiDriveOnCharger = new ApiEndpoint(
+            "/api/robot/behavior/drive_on_charger");
+        this.apiDriveOffCharger = new ApiEndpoint(
+            "/api/robot/behavior/drive_off_charger");
     }
 
     // Behavior functions for the robot
-    driveStraight(distance, speed) {
-        return post("/api/robot/behavior/drive_straight", {
+    driveStraight = (distance, speed) => (
+        this.apiDriveStraight.post({
             distance: distance,
             speed: speed
         })
-    }
+    );
 
-    turnInPlace(angle, speed, accel) {
-        return post("/api/robot/behavior/turn_in_place", {
+    turnInPlace = (angle, speed, accel) => (
+        this.apiTurnInPlace.post({
             angle: angle,
             speed: speed,
             accel: accel
         })
-    }
+    );
 
-    setHeadAngle(angle, accel, maxSpeed, duration) {
-        return post("/api/robot/behavior/set_head_angle", {
+    setHeadAngle = (angle, accel, maxSpeed, duration) => (
+        this.apiSetHeadAngle.post({
             angle: angle,
             accel: accel,
             max_speed: maxSpeed,
             duration: duration
         })
-    }
+    );
 
-    setLiftHeight(height, accel, maxSpeed, duration) {
-        return post("/api/robot/behavior/set_lift_height", {
+    setLiftHeight = (height, accel, maxSpeed, duration) => (
+        this.apiSetLiftAngle.post({
             height: height,
             accel: accel,
             max_speed: maxSpeed,
             duration: duration
         })
-    }
+    );
 
-    dockWithCube() {
-        return post("/api/robot/behavior/dock_with_cube", {})
-    }
+    dockWithCube = () => (
+        this.apiDockWithCube.post({})
+    );
 
-    driveOnCharger() {
-        return post("/api/robot/behavior/drive_on_charger", {})
-    }
+    driveOnCharger = () => (
+        this.apiDriveOnCharger.post({})
+    );
 
-    driveOffCharger() {
-        return post("/api/robot/behavior/drive_off_charger", {})
-    }
+    driveOffCharger = () => (
+        this.apiDriveOffCharger.post({})
+    );
 }
 
 class Robot {
@@ -91,17 +77,15 @@ class Robot {
     constructor() {
         // Keep track of API calls and prevent multiple calls for the same API
         // at the same time.
-        this.apiState = {
-            getBatteryState: false,
-        }
-
-        this.behavior = new Behavior()
+        this.behavior = new Behavior();
+        this.apiGetBatteryState = new ApiEndpoint(
+            "/api/robot/get_battery_state");
     }
 
     // Base Robot functions
-    getBatteryState() {
-        return get("/api/robot/get_battery_state")
-    }
+    getBatteryState = () => (
+        this.apiGetBatteryState.get()
+    )
 }
 
 let robot = new Robot();
